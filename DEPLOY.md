@@ -137,13 +137,13 @@ curl http://127.0.0.1:48080/actuator/health
 ### 步骤 3 — 前端构建 & 部署
 
 ```bash
-cd /www/wwwroot/deepay.srl/deepay-pwa
+cd /www/wwwroot/deepay.srl/yudao-ui-deepay
 npm install
 npm run build
 
 # 部署到站点根目录
 rm -rf /www/wwwroot/deepay.srl/dist-bak
-cp -r /www/wwwroot/deepay.srl/deepay-pwa/dist/. /www/wwwroot/deepay.srl/
+cp -r /www/wwwroot/deepay.srl/yudao-ui-deepay/dist/. /www/wwwroot/deepay.srl/
 ```
 
 ### 步骤 4 — Nginx 配置
@@ -331,7 +331,7 @@ ps aux | grep yudao-server.jar | grep -v grep
 
 # ── 前端 ──────────────────────────────────────
 # 单独重建前端
-cd /www/wwwroot/deepay.srl/deepay-pwa && npm run build
+cd /www/wwwroot/deepay.srl/yudao-ui-deepay && npm run build
 cp -r dist/. /www/wwwroot/deepay.srl/
 
 # ── Nginx ─────────────────────────────────────
@@ -411,7 +411,7 @@ cat ~/.m2/settings.xml | grep aliyun
 
 ```
 deepay.srl/
-├── deepay-pwa/              ← Vue 3 PWA 前端（Web + 手机 App + /admin）
+├── yudao-ui-deepay/         ← Vue 3 PWA 前端（Web + 手机 App + /admin）
 │   ├── src/views/
 │   │   ├── Home.vue         ← 主页（AI 对话）
 │   │   ├── ImageLibrary.vue ← 图库
@@ -420,6 +420,7 @@ deepay.srl/
 │   │   ├── Settings.vue     ← 设置
 │   │   └── Admin.vue        ← 管理后台（/admin，全屏独立）
 │   └── dist/                ← vite build 输出（部署到站点根）
+├── yudao-ui-deepay-app/     ← uni-app H5 / 小程序
 ├── yudao-server/            ← Spring Boot 后端
 ├── run/backend/             ← 运行时目录（jar / logs / config / pid）
 ├── sql/mysql/               ← 数据库初始化 SQL
