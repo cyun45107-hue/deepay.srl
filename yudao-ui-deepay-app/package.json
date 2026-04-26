@@ -1,6 +1,7 @@
 {
   "name": "deepay-app",
   "version": "1.0.0",
+  "type": "module",
   "description": "Deepay AI Fashion Design — UniApp 跨平台版",
   "engines": {
     "node": ">=18.0.0 <25.0.0",
