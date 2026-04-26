@@ -122,6 +122,12 @@ do_git_pull() {
   step "Git  自动拉取最新代码"
   cd "$PROJECT_ROOT"
 
+  # 检查是否为 git 仓库
+  if ! git rev-parse --git-dir &>/dev/null; then
+    warn "当前目录 ($PROJECT_ROOT) 不是 git 仓库，跳过 git pull"
+    return 0
+  fi
+
   # 暂存本地修改，不阻断部署
   local stashed=false
   if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
