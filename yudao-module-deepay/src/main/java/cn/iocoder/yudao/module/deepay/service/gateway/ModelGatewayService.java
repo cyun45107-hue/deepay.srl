@@ -244,13 +244,21 @@ public class ModelGatewayService {
         return (tokensIn * prices[0] + tokensOut * prices[1]) / 1_000_000.0;
     }
 
+    // ---- 模型前缀 → Provider 路由表（新增 provider 只需在此注册）-----------
+    private static final Map<String, String> PROVIDER_PREFIX_MAP = new LinkedHashMap<>();
+    static {
+        PROVIDER_PREFIX_MAP.put("gpt",       "openai");
+        PROVIDER_PREFIX_MAP.put("moonshot",  "moonshot");
+        PROVIDER_PREFIX_MAP.put("glm",       "zhipu");
+        PROVIDER_PREFIX_MAP.put("deepseek",  "deepseek");
+        PROVIDER_PREFIX_MAP.put("spark",     "spark");
+    }
+
     private String resolveProvider(String model) {
         if (model == null) return "unknown";
-        if (model.startsWith("gpt")) return "openai";
-        if (model.startsWith("moonshot")) return "moonshot";
-        if (model.startsWith("glm")) return "zhipu";
-        if (model.startsWith("deepseek")) return "deepseek";
-        if (model.startsWith("spark")) return "spark";
+        for (Map.Entry<String, String> entry : PROVIDER_PREFIX_MAP.entrySet()) {
+            if (model.startsWith(entry.getKey())) return entry.getValue();
+        }
         return "custom";
     }
 

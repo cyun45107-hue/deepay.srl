@@ -13,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.BiFunction;
 
 /**
  * AI 对话核心服务 — 将自然语言消息路由到对应板块，
@@ -68,6 +70,14 @@ public class AiChatService {
             "我想做", "帮我推荐", "最近流行", "库存状态", "趋势分析"
     );
 
+    // ---- 订单状态文本映射 -------------------------------------------------
+    private static final Map<String, String> ORDER_STATUS_TEXT = new LinkedHashMap<>();
+    static {
+        ORDER_STATUS_TEXT.put("PAID",      "✅ 已支付");
+        ORDER_STATUS_TEXT.put("PENDING",   "⏳ 待支付");
+        ORDER_STATUS_TEXT.put("CANCELLED", "❌ 已取消");
+    }
+
     @Resource private ChatSessionService    chatSessionService;
     @Resource private NlpParserService      nlpParserService;
     @Resource private SelectionFlowService  selectionFlowService;
@@ -81,6 +91,25 @@ public class AiChatService {
 
     /** 默认模块（路由未知时的兜底）*/
     private static final String DEFAULT_MODULE = "selection";
+
+    /** 模块路由表：模块名 → 处理函数（替代 switch-case，新增模块只需在此注册）*/
+    private Map<String, BiFunction<Context, String, ChatReply>> moduleRouter;
+
+    // ====================================================================
+    // 初始化
+    // ====================================================================
+
+    @PostConstruct
+    void init() {
+        moduleRouter = new LinkedHashMap<>();
+        moduleRouter.put("selection", this::handleSelection);
+        moduleRouter.put("design",    this::handleDesign);
+        moduleRouter.put("trend",     this::handleTrend);
+        moduleRouter.put("inventory", this::handleInventory);
+        moduleRouter.put("finance",   this::handleFinance);
+        moduleRouter.put("product",   this::handleProduct);
+        moduleRouter.put("order",     this::handleOrder);
+    }
 
     // ====================================================================
     // 角色人设 system prompt
@@ -165,32 +194,10 @@ public class AiChatService {
         nlpParserService.parse(userMessage, ctx, fullPrompt);
 
         // 4. 根据 module 路由执行
-        ChatReply reply;
-        switch (effectiveModule == null ? DEFAULT_MODULE : effectiveModule.toLowerCase()) {
-            case "selection":
-                reply = handleSelection(ctx, userMessage);
-                break;
-            case "design":
-                reply = handleDesign(ctx, userMessage);
-                break;
-            case "trend":
-                reply = handleTrend(ctx, userMessage);
-                break;
-            case "inventory":
-                reply = handleInventory(ctx, userMessage);
-                break;
-            case "finance":
-                reply = handleFinance(ctx, userMessage);
-                break;
-            case "product":
-                reply = handleProduct(ctx, userMessage);
-                break;
-            case "order":
-                reply = handleOrder(ctx, userMessage);
-                break;
-            default:
-                reply = handleSelection(ctx, userMessage);
-        }
+        String routeKey = effectiveModule != null ? effectiveModule.toLowerCase() : DEFAULT_MODULE;
+        BiFunction<Context, String, ChatReply> handler =
+                moduleRouter.getOrDefault(routeKey, this::handleSelection);
+        ChatReply reply = handler.apply(ctx, userMessage);
 
         // 5. 保存 Context（覆盖写）
         chatSessionService.save(sessionId, ctx);
@@ -473,9 +480,7 @@ public class AiChatService {
             try {
                 DeepayOrderDO order = orderMapper.selectByChainCode(ctx.chainCode);
                 if (order != null) {
-                    String statusText = "PAID".equals(order.getStatus()) ? "✅ 已支付"
-                            : "PENDING".equals(order.getStatus()) ? "⏳ 待支付"
-                            : "CANCELLED".equals(order.getStatus()) ? "❌ 已取消" : order.getStatus();
+                    String statusText = ORDER_STATUS_TEXT.getOrDefault(order.getStatus(), order.getStatus());
                     String msg = String.format("📋 订单详情\n\n" +
                             "订单 ID：%s\n状态：%s\n链码：%s\n" +
                             "金额：%s %s\n创建时间：%s",
