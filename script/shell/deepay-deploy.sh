@@ -433,14 +433,14 @@ do_backend() {
 _npm_install() {
   if [ -f package-lock.json ]; then
     info "npm ci ..."
-    npm ci 2>&1 && return 0
+    if npm ci 2>&1; then return 0; fi
     warn "npm ci 失败，降级到 npm ci --legacy-peer-deps"
-    npm ci --legacy-peer-deps 2>&1 && return 0
+    if npm ci --legacy-peer-deps 2>&1; then return 0; fi
     warn "仍然失败，清除 node_modules 后重试"
     rm -rf node_modules package-lock.json
   else
     info "npm install ..."
-    npm install 2>&1 && return 0
+    if npm install 2>&1; then return 0; fi
     warn "npm install 失败，尝试 --legacy-peer-deps"
   fi
   npm install --legacy-peer-deps 2>&1 \
