@@ -43,12 +43,12 @@ JAVA_OPTS="-server -Xms512m -Xmx512m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDum
 # 前端
 PWA_SRC="$PROJECT_ROOT/yudao-ui-deepay"
 PWA_DIST="$PWA_SRC/dist"
-PWA_DEPLOY="/www/wwwroot/deepay.srl"
+PWA_DEPLOY="/www/wwwroot/deepaystudio"
 
 # uni-app H5
 APP_SRC="$PROJECT_ROOT/yudao-ui-deepay-app"
 APP_DIST="$APP_SRC/dist/build/h5"
-APP_DEPLOY="/www/wwwroot/deepay.srl/app"
+APP_DEPLOY="/www/wwwroot/deepaystudio/app"
 
 # 数据库
 DB_HOST="127.0.0.1"

@@ -3,7 +3,7 @@
 #  Deepay 全自动一键部署脚本
 #
 #  服务器上执行（只需复制这一行）：
-#    bash /www/wwwroot/deepay.srl/script/shell/quickstart.sh
+#    bash /www/wwwroot/deepaystudio/script/shell/quickstart.sh
 #
 #  脚本会自动完成：
 #    ① 自动识别宝塔 JDK17，无需手动配置 JAVA_HOME
@@ -19,7 +19,7 @@
 #    ⑪ 注册 systemd 服务 → 设为开机自启
 #
 #  环境变量覆盖（全部可选，默认按单站点方案）：
-#    PROJECT         工程根目录（默认 /www/wwwroot/deepay.srl）
+#    PROJECT         工程根目录（默认 /www/wwwroot/deepaystudio）
 #    FRONTEND_OUT    前端部署目录（默认 $PROJECT）
 #    DOMAIN          站点域名（默认 deepay.srl）
 #    NGINX_CONF      Nginx 配置文件路径
@@ -34,7 +34,7 @@ set -euo pipefail
 # ╔══════════════════════════════════════════════════════════╗
 # ║   全局配置（环境变量优先，其次下方默认值）               ║
 # ╚══════════════════════════════════════════════════════════╝
-PROJECT="${PROJECT:-/www/wwwroot/deepay.srl}"
+PROJECT="${PROJECT:-/www/wwwroot/deepaystudio}"
 RUN=$PROJECT/run/backend
 CFG=$RUN/config
 JAR=$RUN/app.jar
