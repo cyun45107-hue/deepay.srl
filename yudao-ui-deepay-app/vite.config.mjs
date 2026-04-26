@@ -6,7 +6,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
   plugins: [
-    // Components auto-import (Wot Design Uni)
+    uni(),
     Components({
       resolvers: [WotResolver()],
       dts: false,
@@ -15,6 +15,5 @@ export default defineConfig({
       imports: ['vue', 'uni-app'],
       dts: false,
     }),
-    uni(),
   ],
 })
