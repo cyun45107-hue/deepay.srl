@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.deepay.controller;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.deepay.dal.mongodb.AiChatMessageDocument;
 import cn.iocoder.yudao.module.deepay.dal.mongodb.AiChatSessionDocument;
 import cn.iocoder.yudao.module.deepay.dal.mongodb.AiMemoryItemDocument;
@@ -47,18 +48,20 @@ public class AiMemoryController {
 
     @DeleteMapping("/sessions/{sessionId}")
     @Operation(summary = "删除会话及其消息")
-    public void deleteSession(
+    public CommonResult<Boolean> deleteSession(
             @PathVariable String sessionId,
             @RequestParam @NotNull Long tenantId) {
         aiMemoryService.deleteSession(sessionId, tenantId);
+        return CommonResult.success(true);
     }
 
     @PutMapping("/sessions/{sessionId}/memory-switch")
     @Operation(summary = "切换会话记忆开关")
-    public void setMemoryEnabled(
+    public CommonResult<Boolean> setMemoryEnabled(
             @PathVariable String sessionId,
             @RequestParam boolean enabled) {
         aiMemoryService.setMemoryEnabled(sessionId, enabled);
+        return CommonResult.success(true);
     }
 
     // =========================================================================
@@ -85,17 +88,19 @@ public class AiMemoryController {
 
     @DeleteMapping("/items")
     @Operation(summary = "删除某客户某板块的记忆")
-    public void deleteMemoryByModule(
+    public CommonResult<Boolean> deleteMemoryByModule(
             @RequestParam @NotNull Long tenantId,
             @RequestParam @NotNull Long customerId,
             @RequestParam @NotNull String module) {
         aiMemoryService.deleteMemoryByModule(tenantId, customerId, module);
+        return CommonResult.success(true);
     }
 
     @PostMapping("/items/upsert")
     @Operation(summary = "（测试/运营）更新某客户某板块的记忆")
-    public void upsertMemory(@RequestBody @Validated UpsertMemoryReq req) {
+    public CommonResult<Boolean> upsertMemory(@RequestBody @Validated UpsertMemoryReq req) {
         aiMemoryService.upsertMemory(req.getTenantId(), req.getCustomerId(), req.getModule(), req.getFacts());
+        return CommonResult.success(true);
     }
 
     // =========================================================================
@@ -104,10 +109,11 @@ public class AiMemoryController {
 
     @DeleteMapping("/compliance/delete-all")
     @Operation(summary = "合规删除：按 customerId 全量删除所有聊天与记忆")
-    public void deleteAll(
+    public CommonResult<Boolean> deleteAll(
             @RequestParam @NotNull Long tenantId,
             @RequestParam @NotNull Long customerId) {
         aiMemoryService.deleteAll(tenantId, customerId);
+        return CommonResult.success(true);
     }
 
     // =========================================================================

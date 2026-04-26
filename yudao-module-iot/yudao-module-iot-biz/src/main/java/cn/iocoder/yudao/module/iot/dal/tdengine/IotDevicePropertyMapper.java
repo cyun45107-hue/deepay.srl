@@ -85,4 +85,6 @@ public interface IotDevicePropertyMapper {
 
     List<IotDevicePropertyRespVO> selectListByHistory(@Param("reqVO") IotDevicePropertyHistoryListReqVO reqVO);
 
+    List<Map<String, Object>> describeSuperTable(@Param("productId") Long productId);
+
 }

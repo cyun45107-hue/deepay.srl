@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.deepay.controller;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.deepay.dal.mongodb.AiToolAuditLogDocument;
 import cn.iocoder.yudao.module.deepay.dal.mongodb.AiToolAuditLogRepository;
 import cn.iocoder.yudao.module.deepay.service.tool.AiToolExecutor;
@@ -75,10 +76,11 @@ public class AiToolController {
 
     @PostMapping("/cancel/{actionId}")
     @Operation(summary = "取消待确认动作")
-    public void cancelAction(
+    public CommonResult<Boolean> cancelAction(
             @PathVariable String actionId,
             @RequestParam @NotNull Long tenantId) {
         toolExecutor.cancel(actionId, tenantId);
+        return CommonResult.success(true);
     }
 
     // =========================================================================
