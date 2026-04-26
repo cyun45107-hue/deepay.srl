@@ -36,6 +36,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
  */
 @Tag(name = "Deepay - 商品生成")
 @RestController
+@RequestMapping
 @Validated
 public class DeepayProductController {
 

@@ -35,6 +35,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
  */
 @Tag(name = "Deepay - 功能菜单配置")
 @RestController
+@RequestMapping
 @Validated
 public class DeepayFeatureConfigController {
 

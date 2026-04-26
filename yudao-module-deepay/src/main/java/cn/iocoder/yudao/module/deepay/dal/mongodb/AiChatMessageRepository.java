@@ -3,12 +3,14 @@ package cn.iocoder.yudao.module.deepay.dal.mongodb;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * 聊天消息 Repository。
  */
+@Repository
 public interface AiChatMessageRepository extends MongoRepository<AiChatMessageDocument, String> {
 
     /** 按会话 ID 查询消息（按时间升序） */

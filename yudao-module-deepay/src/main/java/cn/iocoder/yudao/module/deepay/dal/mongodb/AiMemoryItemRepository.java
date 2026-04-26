@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.deepay.dal.mongodb;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.Optional;
 /**
  * 长久记忆 Repository。
  */
+@Repository
 public interface AiMemoryItemRepository extends MongoRepository<AiMemoryItemDocument, String> {
 
     /** 查询某客户的所有记忆（所有板块） */

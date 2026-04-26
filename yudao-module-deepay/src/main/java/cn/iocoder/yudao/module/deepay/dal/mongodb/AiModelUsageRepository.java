@@ -3,10 +3,12 @@ package cn.iocoder.yudao.module.deepay.dal.mongodb;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * 模型用量 Repository。
  */
+@Repository
 public interface AiModelUsageRepository extends MongoRepository<AiModelUsageDocument, String> {
 
     Page<AiModelUsageDocument> findByTenantIdOrderByCreatedAtDesc(Long tenantId, Pageable pageable);
