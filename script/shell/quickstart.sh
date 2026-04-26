@@ -61,11 +61,20 @@ JAVA_OPTS="-server -Xms512m -Xmx512m \
   -XX:+HeapDumpOnOutOfMemoryError \
   -XX:HeapDumpPath=${RUN}/heapDump"
 
-# SQL 文件导入顺序（已合并为 3 个文件，幂等安全，MySQL 5.7 / 8.0 均兼容）
+# SQL 文件导入顺序（幂等安全，MySQL 5.7 / 8.0 均兼容）
 SQL_FILES=(
-  "ruoyi-vue-pro.sql"   # 若依框架系统表
-  "quartz.sql"          # 定时任务表
-  "deepay.sql"          # Deepay 全量业务表（含所有迁移，合并自原 10 个文件）
+  "ruoyi-vue-pro.sql"              # 若依框架系统表
+  "quartz.sql"                     # 定时任务表
+  "deepay.sql"                     # Deepay 全量业务表（含所有迁移，合并自原 10 个文件）
+  "add_crypto_payment_channels.sql" # 加密货币支付渠道（Coinbase Commerce / USDC）
+  "blockchain-task.sql"            # 区块链异步存证任务表（pay_blockchain_task）
+  "b2b-upgrade.sql"                # B2B 安全分享记录表（product_share）
+  "ai-copilot-mvp.sql"             # AI Copilot 角色人设配置表（ai_persona / ai_usage_log）
+  "ai_fashion_task.sql"            # 服装设计多模型流水线任务表（ai_fashion_task / ai_fashion_subtask）
+  "ai_fashion_task_v2.sql"         # ai_fashion_task 升级字段（ALTER TABLE，须在 ai_fashion_task.sql 之后）
+  "ai_fashion_session.sql"         # AI 服装设计智能会话表（ai_fashion_session）
+  "ai_fashion_3d_asset.sql"        # AI 服装 3D 资产表（ai_fashion_3d_asset）
+  "ai_fashion_model_library.sql"   # 服装模特库及采集器相关表（ai_fashion_model_library 等）
 )
 # ═══════════════════════════════════════════════════════════
 
