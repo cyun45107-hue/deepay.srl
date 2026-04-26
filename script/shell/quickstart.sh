@@ -43,7 +43,7 @@ PID=$RUN/deepay.pid
 PORT="${PORT:-48080}"
 PROFILE="${PROFILE:-prod}"
 
-FRONTEND_SRC=$PROJECT/deepay-pwa
+FRONTEND_SRC=$PROJECT/yudao-ui-deepay
 # 单站点模式：前端直接输出到站点根目录
 FRONTEND_OUT="${FRONTEND_OUT:-$PROJECT}"
 
