@@ -4,11 +4,11 @@
 #
 #  服务器上执行（只需复制这一行）：
 #
-#    bash <(curl -fsSL https://raw.githubusercontent.com/deepay999/deepaystudio/main/script/shell/bootstrap.sh)
+#    bash <(curl -fsSL https://raw.githubusercontent.com/deepay999/deepaystudio/master/script/shell/bootstrap.sh)
 #
 #  或者（已能访问 GitHub 时）：
 #
-#    curl -fsSL https://raw.githubusercontent.com/deepay999/deepaystudio/main/script/shell/bootstrap.sh | bash
+#    curl -fsSL https://raw.githubusercontent.com/deepay999/deepaystudio/master/script/shell/bootstrap.sh | bash
 #
 #  脚本会自动完成：
 #    ① 安装 git（若系统缺少）
@@ -28,7 +28,7 @@ set -euo pipefail
 
 REPO="${REPO:-https://github.com/deepay999/deepaystudio.git}"
 PROJECT_DIR="${PROJECT_DIR:-/www/wwwroot/deepaystudio}"
-BRANCH="${BRANCH:-main}"
+BRANCH="${BRANCH:-master}"
 SKIP_QUICKSTART="${SKIP_QUICKSTART:-0}"
 
 # 自动生成 Webhook Secret（每次引导唯一，保存到文件供查阅）
