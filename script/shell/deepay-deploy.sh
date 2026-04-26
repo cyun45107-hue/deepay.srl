@@ -352,14 +352,12 @@ do_backend() {
   need java
   info "Java : $(java -version 2>&1 | head -1)"
 
-  # 同步外置配置
-  local src_cfg="$PROJECT_ROOT/run/backend/config/application-prod.yml"
+  # 检查外置配置
   local dst_cfg="$BACKEND_CFG/application-prod.yml"
-  if [ -f "$src_cfg" ] && [ "$src_cfg" != "$dst_cfg" ]; then
-    cp -f "$src_cfg" "$dst_cfg"
-    ok "配置已同步 → $BACKEND_CFG/application-prod.yml"
-  elif [ ! -f "$dst_cfg" ]; then
-    warn "未找到 application-prod.yml，启动时可能失败"
+  if [ -f "$dst_cfg" ]; then
+    ok "配置文件就绪 → $dst_cfg"
+  else
+    warn "未找到 application-prod.yml，启动时可能失败（路径: $dst_cfg）"
   fi
 
   if $SKIP_BUILD && [ -f "$BACKEND_JAR" ]; then

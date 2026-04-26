@@ -119,7 +119,8 @@ mvn clean package -DskipTests -pl yudao-server -am
 
 # 准备运行目录
 mkdir -p run/backend/logs run/backend/config run/backend/backup
-cp run/backend/config/application-prod.yml run/backend/config/
+# run/backend/config/application-prod.yml 已包含在项目中，按需修改数据库密码等配置：
+# vi run/backend/config/application-prod.yml
 
 # 启动
 nohup java -server -Xms512m -Xmx512m \
